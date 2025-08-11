@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<title>Produit par code-barres</title>
+<style>
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  img { max-width: 300px; margin-top: 15px; }
+</style>
+</head>
+<body>
+  <h1>Recherche produit</h1>
+  <input id="codeInput" placeholder="Scanne ou entre le code" autofocus />
+  <button onclick="afficherProduit()">Chercher</button>
+  
+  <div id="result" style="margin-top: 20px;"></div>
+  
+  <script>
+    const produits = {
+      "ABC123": { nom: "Machine A", prix: 1500, image: "https://via.placeholder.com/300?text=Machine+A" },
+      "XYZ789": { nom: "Machine B", prix: 2500, image: "https://via.placeholder.com/300?text=Machine+B" }
+    };
+
+    function afficherProduit() {
+      const code = document.getElementById('codeInput').value.trim().toUpperCase();
+      const resultDiv = document.getElementById('result');
+      
+      if(produits[code]) {
+        const p = produits[code];
+        resultDiv.innerHTML = `<h2>${p.nom}</h2><p>Prix: ${p.prix} FCFA</p><img src="${p.image}" alt="${p.nom}"/>`;
+      } else {
+        resultDiv.innerHTML = `<p style="color:red;">Produit non trouvé pour ce code</p>`;
+      }
+    }
+
+    // Option : si la page reçoit un paramètre ?code=, on l'affiche automatiquement
+    const urlParams = new URLSearchParams(window.location.search);
+    const codeParam = urlParams.get('code');
+    if(codeParam) {
+      document.getElementById('codeInput').value = codeParam.toUpperCase();
+      afficherProduit();
+    }
+  </script>
+</body>
+</html>
